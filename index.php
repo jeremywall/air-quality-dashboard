@@ -130,27 +130,27 @@ if ($aqSensor != null) {
             }, {
 
                 innerRadius: 100,
-                from: 51,
+                from: 50,
                 to: 100,
                 color: '#ede400' // yellow
             }, {
                 innerRadius: 100,
-                from: 101,
+                from: 100,
                 to: 150,
                 color: '#ed8b00' // orange
             }, {
                 innerRadius: 100,
-                from: 151,
+                from: 150,
                 to: 200,
                 color: '#bd0000' // red
             }, {
                 innerRadius: 100,
-                from: 201,
+                from: 200,
                 to: 300,
                 color: '#a7005b' // purple
             }, {
                 innerRadius: 100,
-                from: 301,
+                from: 300,
                 to: 500,
                 color: '#5f0000' // maroon
             }]
