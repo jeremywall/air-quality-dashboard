@@ -42,6 +42,11 @@ if ($aqSensor != null) {
     $record = $aqSensor->data[0];
 
     $recordTs = $record->ts;
+
+    $recordDateTime = new \DateTime();
+    $recordDateTime->setTimestamp($recordTs);
+    $recordDateTime->setTimezone(new \DateTimeZone("America/Los_Angeles"));
+
     $pm25 = $record->pm_2p5;
     $pm25AqiValue = $record->aqi_val;
     $pm25AqiDesc = $record->aqi_desc;
@@ -58,9 +63,11 @@ if ($aqSensor != null) {
 <title><?php echo( $siteTitle); ?></title>
 </head>
 <body>
-<p>Last Data Reading at <?php echo($recordTs); ?></p>
+<?php if ($aqSensor != null) { ?>
+<p>Last Updated: <?php echo($recordDateTime->format("M j, Y \a\\t h:i A e")); ?></p>
 <p>PM 2.5 Concentration = <?php echo($pm25); ?></p>
 <p>PM 2.5 AQI = <?php echo($pm25AqiValue); ?> <?php echo($pm25AqiDesc); ?></p>
+<?php } ?>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
