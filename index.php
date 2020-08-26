@@ -48,7 +48,7 @@ if ($aqSensor != null) {
     $recordDateTime->setTimezone(new \DateTimeZone(getenv("TIMEZONE")));
 
     $pm25 = $record->pm_2p5;
-    $pm25AqiValue = round($record->aqi_val, 2);
+    $pm25AqiValue = round($record->aqi_val, 1);
     $pm25AqiDesc = $record->aqi_desc;
 }
 
@@ -68,7 +68,6 @@ if ($aqSensor != null) {
 </head>
 <body>
 <?php if ($aqSensor != null) { ?>
-<p>Last Updated: <?php echo($recordDateTime->format("M j, Y \a\\t h:i A e")); ?></p>
 <div id="aqi-container"></div>
 <?php } ?>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -76,6 +75,7 @@ if ($aqSensor != null) {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
+<?php if ($aqSensor != null) { ?>
 <script>
     Highcharts.chart('aqi-container', {
 
@@ -88,7 +88,7 @@ if ($aqSensor != null) {
         },
 
         title: {
-            text: 'Last Updated: <?php echo($recordDateTime->format("M j, Y \\a\\\\t h:i A e")); ?><br>Current PM 2.5 AQI<br><?php echo($pm25AqiDesc); ?>'
+            text: 'Last Updated: <?php echo($recordDateTime->format("M j, Y \a\\t h:i A")); ?><br>Current PM 2.5 AQI<br><?php echo($pm25AqiDesc); ?>'
         },
 
         pane: {
@@ -159,5 +159,6 @@ if ($aqSensor != null) {
 
     });
 </script>
+<?php } ?>
 </body>
 </html>
