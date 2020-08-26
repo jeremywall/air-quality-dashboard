@@ -88,7 +88,7 @@ if ($aqSensor != null) {
         },
 
         title: {
-            text: 'Last Updated: <?php echo($recordDateTime->format("M j, Y \a\\t h:i A")); ?><br>Current PM 2.5 AQI<br><?php echo($pm25AqiDesc); ?>'
+            text: 'Last Updated: <?php echo($recordDateTime->format("M j, Y @ h:i A")); ?><br>Current PM 2.5 AQI<br><?php echo($pm25AqiDesc); ?>'
         },
 
         pane: {
