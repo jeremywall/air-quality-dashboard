@@ -48,7 +48,7 @@ if ($aqSensor != null) {
     $recordDateTime->setTimezone(new \DateTimeZone(getenv("TIMEZONE")));
 
     $pm25 = $record->pm_2p5;
-    $pm25AqiValue = $record->aqi_val;
+    $pm25AqiValue = round($record->aqi_val, 2);
     $pm25AqiDesc = $record->aqi_desc;
 }
 
@@ -90,7 +90,7 @@ if ($aqSensor != null) {
         },
 
         title: {
-            text: 'Current PM 2.5 AQI'
+            text: 'Current PM 2.5 AQI<br><?php echo($pm25AqiDesc); ?>'
         },
 
         pane: {
