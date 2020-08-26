@@ -16,8 +16,6 @@ foreach ($parameters as $key => $value) {
 
 $apiSignature = hash_hmac("sha256", $stringToHash, getenv("WEATHERLINK_V2_API_SECRET"));
 
-$apiKey =
-
 $json = file_get_contents(getenv("WEATHERLINK_V2_API_BASE_URL") .
     "/current/" . $parameters["station-id"] .
     "?api-key=" . $parameters["api-key"] .
