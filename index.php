@@ -123,33 +123,33 @@ if ($aqSensor != null) {
                 distance: 5
             },
             plotBands: [{
-                innerRadius: 100,
+                innerRadius: 50,
                 from: 0,
                 to: 50,
                 color: '#0bab8b' // green
             }, {
 
-                innerRadius: 100,
+                innerRadius: 50,
                 from: 50,
                 to: 100,
                 color: '#ede400' // yellow
             }, {
-                innerRadius: 100,
+                innerRadius: 50,
                 from: 100,
                 to: 150,
                 color: '#ed8b00' // orange
             }, {
-                innerRadius: 100,
+                innerRadius: 50,
                 from: 150,
                 to: 200,
                 color: '#bd0000' // red
             }, {
-                innerRadius: 100,
+                innerRadius: 50,
                 from: 200,
                 to: 300,
                 color: '#a7005b' // purple
             }, {
-                innerRadius: 100,
+                innerRadius: 50,
                 from: 300,
                 to: 500,
                 color: '#5f0000' // maroon
