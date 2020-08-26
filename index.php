@@ -69,8 +69,6 @@ if ($aqSensor != null) {
 <body>
 <?php if ($aqSensor != null) { ?>
 <p>Last Updated: <?php echo($recordDateTime->format("M j, Y \a\\t h:i A e")); ?></p>
-<p>PM 2.5 Concentration = <?php echo($pm25); ?></p>
-<p>PM 2.5 AQI = <?php echo($pm25AqiValue); ?> <?php echo($pm25AqiDesc); ?></p>
 <div id="aqi-container"></div>
 <?php } ?>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -90,7 +88,7 @@ if ($aqSensor != null) {
         },
 
         title: {
-            text: 'Current PM 2.5 AQI<br><?php echo($pm25AqiDesc); ?>'
+            text: 'Last Updated: <?php echo($recordDateTime->format("M j, Y \\a\\\\t h:i A e")); ?><br>Current PM 2.5 AQI<br><?php echo($pm25AqiDesc); ?>'
         },
 
         pane: {
