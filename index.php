@@ -45,7 +45,7 @@ if ($aqSensor != null) {
 
     $recordDateTime = new \DateTime();
     $recordDateTime->setTimestamp($recordTs);
-    $recordDateTime->setTimezone(new \DateTimeZone("America/Los_Angeles"));
+    $recordDateTime->setTimezone(new \DateTimeZone(getenv("TIMEZONE")));
 
     $pm25 = $record->pm_2p5;
     $pm25AqiValue = $record->aqi_val;
