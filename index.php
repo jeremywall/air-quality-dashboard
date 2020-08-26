@@ -91,6 +91,10 @@ if ($aqSensor != null) {
             text: 'Last Updated: <?php echo($recordDateTime->format("M j, Y @ h:i A")); ?><br>Current PM 2.5 AQI<br><?php echo($pm25AqiDesc); ?>'
         },
 
+        credits: {
+            enabled: false
+        },
+
         pane: {
             startAngle: -135,
             endAngle: 135,
