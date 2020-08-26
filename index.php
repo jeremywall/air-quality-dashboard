@@ -25,11 +25,11 @@ $json = file_get_contents(getenv("WEATHERLINK_V2_API_BASE_URL") .
 
 $data = json_decode($json);
 
-$sensors = $data["sensors"];
+$sensors = $data->sensors;
 $aqSensor = null;
 $sensorId = (int) getenv("SENSOR_ID");
 foreach ($sensors as $sensor) {
-    if ($sensor["lsid"] == $sensorId) {
+    if ($sensor->lsid == $sensorId) {
         $aqSensor = $sensor;
     }
 }
@@ -39,12 +39,12 @@ $pm25 = null;
 $pm25AqiValue = null;
 $pm25AqiDesc = null;
 if ($aqSensor != null) {
-    $record = $aqSensor["data"][0];
+    $record = $aqSensor->data[0];
 
-    $recordTs = $record["ts"];
-    $pm25 = $record["pm_2p5"];
-    $pm25AqiValue = $record["aqi_val"];
-    $pm25AqiDesc = $record["aqi_desc"];
+    $recordTs = $record->ts;
+    $pm25 = $record->pm_2p5;
+    $pm25AqiValue = $record->aqi_val;
+    $pm25AqiDesc = $record->aqi_desc;
 }
 
 ?><!doctype html>
