@@ -261,6 +261,9 @@ if ($aqSensor != null) {
             min: 0,
             max: 500,
             gridLineWidth: 0,
+            title: {
+                enabled: false
+            },
             plotBands: [{
                 from: 0,
                 to: 50,
