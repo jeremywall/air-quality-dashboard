@@ -94,17 +94,23 @@ $trendData = null;
 if ($aqSensor != null) {
     $trendData = new stdClass();
 
-    $record = $aqSensor->data[0];
-
-//     $recordDateTime = new \DateTime();
-//     $recordDateTime->setTimestamp($record->ts);
-//     $recordDateTime->setTimezone(new \DateTimeZone(getenv("TIMEZONE")));
+    $trendData->avg = new stdClass();
+    $trendData->avg->data = [];
     
-//     $currentData->dateTime = $recordDateTime;
-
-//     $currentData->pm25 = $record->pm_2p5;
-//     $currentData->pm25AqiValue = round($record->aqi_val, 1);
-//     $currentData->pm25AqiDesc = $record->aqi_desc;
+    $trendData->hi = new stdClass();
+    $trendData->hi->data = [];
+    
+    foreach ($aqSensor->data as $record) {
+        $recordDateTime = new \DateTime();
+        $recordDateTime->setTimestamp($record->ts);
+        $recordDateTime->setTimezone(new \DateTimeZone(getenv("TIMEZONE")));
+        
+        $trendData->avg->data[] = $record->ts * 1000;
+        $trendData->avg->data[] = round($record->aqi_avg_val, 1);
+        
+        $trendData->hi->data[] = $record->ts * 1000;
+        $trendData->hi->data[] = round($record->aqi_hi_val, 1);
+    }
 }
 
 
@@ -127,10 +133,10 @@ if ($aqSensor != null) {
 <title><?php echo( $siteTitle); ?></title>
 </head>
 <body>
-<?php if ($aqSensor != null) { ?>
+
 <div id="aqi-current-gauge-container"></div>
 <div id="aqi-trend-chart-container"></div>
-<?php } ?>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
@@ -211,6 +217,37 @@ if ($aqSensor != null) {
         series: [{
             name: 'AQI',
             data: [<?php echo($currentData->pm25AqiValue); ?>]
+        }]
+    });
+</script>
+<?php } ?>
+<?php if ($trendData != null) { ?>
+<script>
+    Highcharts.chart('aqi-trend-chart-container', {
+        chart: {
+            type: 'spline',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+            text: 'Last 12 Hours Avg and High'
+        },
+        credits: {
+            enabled: false
+        },
+        // the value axis
+        yAxis: {
+            min: 0,
+            max: 500
+        },
+        series: [{
+            name: 'Avg',
+            data: JSON.parse(<?php echo(json_encode($trendData->avg->data)); ?>)
+        },{
+            name: 'High',
+            data: JSON.parse(<?php echo(json_encode($trendData->hi->data)); ?>)
         }]
     });
 </script>
