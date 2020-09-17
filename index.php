@@ -56,7 +56,7 @@ if ($aqSensor != null) {
 $parameters = array(
     "api-key" => getenv("WEATHERLINK_V2_API_KEY"),
     "station-id" => getenv("STATION_ID"),
-    "start-timestamp" => time() - (3600 * 6),
+    "start-timestamp" => time() - (3600 * 3),
     "end-timestamp" => time(),
     "t" => time()
 );
@@ -239,39 +239,39 @@ if ($aqSensor != null) {
             }
         },
         title: {
-            text: 'Last 6 Hours Avg PM 2.5 AQI'
+            text: 'Last 3 Hours Avg PM 2.5 AQI'
         },
         credits: {
             enabled: false
         },
-        // the value axis
         yAxis: {
             min: 0,
             max: 500,
+            gridLineWidth: 0,
             plotBands: [{
                 from: 0,
                 to: 50,
-                color: '#0bab8b66' // green
+                color: '#0bab8b80' // green
             }, {
                 from: 50,
                 to: 100,
-                color: '#ede40066' // yellow
+                color: '#ede40080' // yellow
             }, {
                 from: 100,
                 to: 150,
-                color: '#ed8b0066' // orange
+                color: '#ed8b0080' // orange
             }, {
                 from: 150,
                 to: 200,
-                color: '#bd000066' // red
+                color: '#bd000080' // red
             }, {
                 from: 200,
                 to: 300,
-                color: '#a7005b66' // purple
+                color: '#a7005b80' // purple
             }, {
                 from: 300,
                 to: 500,
-                color: '#5f000066' // maroon
+                color: '#5f000080' // maroon
             }]
         },
         xAxis: {
