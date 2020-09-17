@@ -264,27 +264,27 @@ if ($aqSensor != null) {
             plotBands: [{
                 from: 0,
                 to: 50,
-                color: '#0bab8b40' // green
+                color: '#0bab8b55' // green
             }, {
                 from: 50,
                 to: 100,
-                color: '#ede40040' // yellow
+                color: '#ede40055' // yellow
             }, {
                 from: 100,
                 to: 150,
-                color: '#ed8b0040' // orange
+                color: '#ed8b0055' // orange
             }, {
                 from: 150,
                 to: 200,
-                color: '#bd000040' // red
+                color: '#bd000055' // red
             }, {
                 from: 200,
                 to: 300,
-                color: '#a7005b40' // purple
+                color: '#a7005b55' // purple
             }, {
                 from: 300,
                 to: 500,
-                color: '#5f000040' // maroon
+                color: '#5f000055' // maroon
             }]
         },
         xAxis: {
