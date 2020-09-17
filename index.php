@@ -244,10 +244,10 @@ if ($aqSensor != null) {
         },
         series: [{
             name: 'Avg',
-            data: JSON.parse(<?php echo(json_encode($trendData->avg->data)); ?>)
+            data: <?php echo(json_encode($trendData->avg->data)); ?>
         },{
             name: 'High',
-            data: JSON.parse(<?php echo(json_encode($trendData->hi->data)); ?>)
+            data: <?php echo(json_encode($trendData->hi->data)); ?>
         }]
     });
 </script>
