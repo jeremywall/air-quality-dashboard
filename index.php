@@ -105,11 +105,11 @@ if ($aqSensor != null) {
         $recordDateTime->setTimestamp($record->ts);
         $recordDateTime->setTimezone(new \DateTimeZone(getenv("TIMEZONE")));
         
-        $trendData->avg->data[] = $record->ts * 1000;
-        $trendData->avg->data[] = round($record->aqi_avg_val, 1);
+        $avgArr = [$record->ts * 1000, round($record->aqi_avg_val, 1)];
+        $trendData->avg->data[] = $avgArr;
         
-        $trendData->hi->data[] = $record->ts * 1000;
-        $trendData->hi->data[] = round($record->aqi_hi_val, 1);
+        $hiArr = [$record->ts * 1000, round($record->aqi_hi_val, 1)];
+        $trendData->hi->data[] = $hiArr;
     }
 }
 
