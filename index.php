@@ -232,7 +232,7 @@ if ($aqSensor != null) {
             plotShadow: false
         },
         title: {
-            text: 'Last 6 Hours Avg and High'
+            text: 'Last 6 Hours Avg PM 2.5 AQI'
         },
         credits: {
             enabled: false
@@ -248,9 +248,6 @@ if ($aqSensor != null) {
         series: [{
             name: 'Avg',
             data: <?php echo(json_encode($trendData->avg->data)); ?>
-        },{
-            name: 'High',
-            data: <?php echo(json_encode($trendData->hi->data)); ?>
         }]
     });
 </script>
