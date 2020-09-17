@@ -242,6 +242,9 @@ if ($aqSensor != null) {
             min: 0,
             max: 500
         },
+        xAxis: {
+            type: 'datetime'
+        },
         series: [{
             name: 'Avg',
             data: <?php echo(json_encode($trendData->avg->data)); ?>
