@@ -56,7 +56,7 @@ if ($aqSensor != null) {
 $parameters = array(
     "api-key" => getenv("WEATHERLINK_V2_API_KEY"),
     "station-id" => getenv("STATION_ID"),
-    "start-timestamp" => time() - (3600 * 12),
+    "start-timestamp" => time() - (3600 * 6),
     "end-timestamp" => time(),
     "t" => time()
 );
@@ -232,7 +232,7 @@ if ($aqSensor != null) {
             plotShadow: false
         },
         title: {
-            text: 'Last 12 Hours Avg and High'
+            text: 'Last 6 Hours Avg and High'
         },
         credits: {
             enabled: false
