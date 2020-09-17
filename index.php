@@ -251,27 +251,27 @@ if ($aqSensor != null) {
             plotBands: [{
                 from: 0,
                 to: 50,
-                color: '#0bab8b' // green
+                color: '#9CFFF9' // green
             }, {
                 from: 50,
                 to: 100,
-                color: '#ede400' // yellow
+                color: '#FFFF97' // yellow
             }, {
                 from: 100,
                 to: 150,
-                color: '#ed8b00' // orange
+                color: '#FFFA81' // orange
             }, {
                 from: 150,
                 to: 200,
-                color: '#bd0000' // red
+                color: '#FF8B64' // red
             }, {
                 from: 200,
                 to: 300,
-                color: '#a7005b' // purple
+                color: '#FF88C2' // purple
             }, {
                 from: 300,
                 to: 500,
-                color: '#5f0000' // maroon
+                color: '#D36D5D' // maroon
             }]
         },
         xAxis: {
@@ -279,6 +279,7 @@ if ($aqSensor != null) {
         },
         series: [{
             name: 'Avg',
+            color: '#000000',
             data: <?php echo(json_encode($trendData->avg->data)); ?>
         }]
     });
