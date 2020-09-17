@@ -287,12 +287,7 @@ if ($aqSensor != null) {
             }]
         },
         xAxis: {
-            type: 'datetime',
-            labels: {
-               formatter: function() {
-                   return this;
-               }
-            }
+            type: 'datetime'
         },
         series: [{
             name: 'Avg',
