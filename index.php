@@ -231,6 +231,13 @@ if ($aqSensor != null) {
             plotBorderWidth: 0,
             plotShadow: false
         },
+        plotOptions: {
+            spline: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
         title: {
             text: 'Last 6 Hours Avg PM 2.5 AQI'
         },
@@ -240,7 +247,32 @@ if ($aqSensor != null) {
         // the value axis
         yAxis: {
             min: 0,
-            max: 500
+            max: 500,
+            plotBands: [{
+                from: 0,
+                to: 50,
+                color: '#0bab8b' // green
+            }, {
+                from: 50,
+                to: 100,
+                color: '#ede400' // yellow
+            }, {
+                from: 100,
+                to: 150,
+                color: '#ed8b00' // orange
+            }, {
+                from: 150,
+                to: 200,
+                color: '#bd0000' // red
+            }, {
+                from: 200,
+                to: 300,
+                color: '#a7005b' // purple
+            }, {
+                from: 300,
+                to: 500,
+                color: '#5f0000' // maroon
+            }]
         },
         xAxis: {
             type: 'datetime'
