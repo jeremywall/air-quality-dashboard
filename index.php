@@ -100,6 +100,9 @@ if ($aqSensor != null) {
     $trendData->hi = new stdClass();
     $trendData->hi->data = [];
     
+    $trendData->lo = new stdClass();
+    $trendData->lo->data = [];
+    
     foreach ($aqSensor->data as $record) {
         $recordDateTime = new \DateTime();
         $recordDateTime->setTimestamp($record->ts);
@@ -110,6 +113,9 @@ if ($aqSensor != null) {
         
         $hiArr = [$record->ts * 1000, round($record->aqi_hi_val, 1)];
         $trendData->hi->data[] = $hiArr;
+        
+        $loArr = [$record->ts * 1000, round($record->aqi_lo_val, 1)];
+        $trendData->lo->data[] = $loArr;
     }
 }
 
@@ -298,6 +304,14 @@ if ($aqSensor != null) {
             name: 'Avg',
             color: '#000000',
             data: <?php echo(json_encode($trendData->avg->data)); ?>
+        }, {
+            name: 'High',
+            color: '#FF0000',
+            data: <?php echo(json_encode($trendData->high->data)); ?>
+        }, {
+            name: 'Low',
+            color: '#0000FF',
+            data: <?php echo(json_encode($trendData->low->data)); ?>
         }]
     });
 </script>
