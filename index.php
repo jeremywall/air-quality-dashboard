@@ -298,10 +298,6 @@ if ($aqSensor != null) {
             name: 'Avg',
             color: '#000000',
             data: <?php echo(json_encode($trendData->avg->data)); ?>
-        }, {
-            name: 'High',
-            color: '#FF0000',
-            data: <?php echo(json_encode($trendData->hi->data)); ?>
         }]
     });
 </script>
