@@ -122,7 +122,6 @@ if ($aqSensor != null) {
 <!--<meta http-equiv="refresh" content="60">-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css" integrity="sha512-F7WyTLiiiPqvu2pGumDR15med0MDkUIo5VTVyyfECR5DZmCnDhti9q5VID02ItWjq6fvDfMaBaDl2J3WdL1uxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style type="text/css">
 .aqi-current-gauge-container {
@@ -144,7 +143,6 @@ if ($aqSensor != null) {
     </div>
     <div class="row">
         <div id="aqi-current-gauge-container1" class="col aqi-current-gauge-container"></div>
-        <div id="aqi-current-gauge-container2" class="col aqi-current-gauge-container"></div>
     </div>
     <div class="row">
         <div id="aqi-trend-chart-container" class="col"></div>
@@ -153,7 +151,6 @@ if ($aqSensor != null) {
         <div id="bottom-padding-container" class="col"></div>
     </div>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js" integrity="sha512-PqRelaJGXVuQ81N6wjUrRQelCDR7z8RvKGiR9SbSxKHPIt15eJDmIVv9EJgwq0XvgylszsjzvQ0+VyI2WtIshQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.slim.min.js" integrity="sha512-6ORWJX/LrnSjBzwefdNUyLCMTIsGoNP6NftMy2UAm1JBm6PRZCO1d7OHBStWpVFZLO+RerTvqX/Z9mBFfCJZ4A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -239,82 +236,18 @@ if ($aqSensor != null) {
         },
         series: [{
             name: 'AQI',
-            color: 'black',
-            data: [<?php echo($currentData->pm25AqiValue); ?>]
-        }]
-    });
-    Highcharts.chart('aqi-current-gauge-container2', {
-        chart: {
-            type: 'gauge',
-            plotBackgroundColor: null,
-            plotBackgroundImage: null,
-            plotBorderWidth: 0,
-            plotShadow: false
-        },
-        title: null,
-        credits: {
-            enabled: false
-        },
-        pane: {
-            startAngle: -135,
-            endAngle: 135,
-            background: [ ]
-        },
-        // the value axis
-        yAxis: {
-            min: 0,
-            max: 500,
-            minorTickInterval: 'auto',
-            minorTickWidth: 1,
-            minorTickLength: 10,
-            minorTickPosition: 'inside',
-            minorTickColor: '#000',
-            tickPixelInterval: 30,
-            tickWidth: 2,
-            tickPosition: 'inside',
-            tickLength: 10,
-            tickColor: '#000',
-            labels: {
-                step: 2,
-                rotation: 'auto',
-                distance: 5
-            },
-            plotBands: [{
-                innerRadius: 50,
-                from: 0,
-                to: 50,
-                color: '#0bab8b' // green
-            }, {
-                innerRadius: 50,
-                from: 50,
-                to: 100,
-                color: '#ede400' // yellow
-            }, {
-                innerRadius: 50,
-                from: 100,
-                to: 150,
-                color: '#ed8b00' // orange
-            }, {
-                innerRadius: 50,
-                from: 150,
-                to: 200,
-                color: '#bd0000' // red
-            }, {
-                innerRadius: 50,
-                from: 200,
-                to: 300,
-                color: '#a7005b' // purple
-            }, {
-                innerRadius: 50,
-                from: 300,
-                to: 500,
-                color: '#5f0000' // maroon
-            }]
-        },
-        series: [{
-            name: 'AQI',
-            color: 'black',
-            data: [<?php echo($currentData->pm25AqiValue); ?>]
+            data: [<?php echo($currentData->pm25AqiValue); ?>],
+            dial: {
+                backgroundColor: '#000000',
+                borderColor: '#cccccc'
+            }
+        }, {
+            name: 'AQI WS',
+            data: [<?php echo($currentData->pm25AqiValue * 0.48); ?>],
+            dial: {
+                backgroundColor: '#cccccc',
+                borderColor: '#000000'
+            }
         }]
     });
 </script>
