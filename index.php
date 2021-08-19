@@ -119,7 +119,7 @@ if ($aqSensor != null) {
 ?><!doctype html>
 <html lang="en">
 <head>
-<meta http-equiv="refresh" content="60">
+<!--<meta http-equiv="refresh" content="60">-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -138,10 +138,17 @@ if ($aqSensor != null) {
 <title><?php echo( $siteTitle); ?></title>
 </head>
 <body>
-
-<div id="aqi-current-gauge-container"></div>
-<div id="aqi-trend-chart-container"></div>
-<div id="bottom-padding-container"></div>
+<div class="container">
+    <div class="row">
+        <div id="aqi-current-gauge-container" class="col"></div>
+    </div>
+    <div class="row">
+        <div id="aqi-trend-chart-container" class="col"></div>
+    </div>
+    <div class="row">
+        <div id="bottom-padding-container" class="col"></div>
+    </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js" integrity="sha512-PqRelaJGXVuQ81N6wjUrRQelCDR7z8RvKGiR9SbSxKHPIt15eJDmIVv9EJgwq0XvgylszsjzvQ0+VyI2WtIshQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.slim.min.js" integrity="sha512-6ORWJX/LrnSjBzwefdNUyLCMTIsGoNP6NftMy2UAm1JBm6PRZCO1d7OHBStWpVFZLO+RerTvqX/Z9mBFfCJZ4A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
