@@ -240,7 +240,10 @@ if ($aqSensor != null) {
             dial: {
                 backgroundColor: '#000000',
                 borderColor: '#cccccc',
-                baseWidth: 8
+                baseWidth: 8,
+                borderWidth: 1,
+                baseLength: '0%',
+                rearLength: '0%'
             }
         }, {
             name: 'AQI WS',
@@ -248,7 +251,10 @@ if ($aqSensor != null) {
             dial: {
                 backgroundColor: '#cccccc',
                 borderColor: '#000000',
-                baseWidth: 8
+                baseWidth: 8,
+                borderWidth: 1,
+                baseLength: '0%',
+                rearLength: '0%'
             }
         }]
     });
