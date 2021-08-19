@@ -231,12 +231,15 @@ if ($aqSensor != null) {
         },
         series: [{
             name: 'AQI',
+            color: 'black',
             data: [<?php echo($currentData->pm25AqiValue); ?>]
         }, {
             name: 'c',
+            color: 'red',
             data: [<?php echo($currentData->pm25); ?>]
         }, {
             name: 'ws',
+            color: 'green',
             data: [<?php echo($currentData->pm25ws); ?>]
         }]
     });
