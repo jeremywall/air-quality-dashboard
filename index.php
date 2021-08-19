@@ -48,6 +48,7 @@ if ($aqSensor != null) {
     $currentData->dateTime = $recordDateTime;
 
     $currentData->pm25 = $record->pm_2p5;
+    $currentData->pm25ws = $record->pm_2p5 * 0.48;
     $currentData->pm25AqiValue = round($record->aqi_val, 1);
     $currentData->pm25AqiDesc = $record->aqi_desc;
 }
@@ -231,6 +232,12 @@ if ($aqSensor != null) {
         series: [{
             name: 'AQI',
             data: [<?php echo($currentData->pm25AqiValue); ?>]
+        }, {
+            name: 'c',
+            data: [<?php echo($currentData->pm25); ?>]
+        }, {
+            name: 'ws',
+            data: [<?php echo($currentData->pm25ws); ?>]
         }]
     });
 </script>
