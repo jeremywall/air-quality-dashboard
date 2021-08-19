@@ -48,8 +48,9 @@ if ($aqSensor != null) {
     $currentData->dateTime = $recordDateTime;
 
     $currentData->pm25 = $record->pm_2p5;
-    $currentData->pm25ws = $record->pm_2p5 * 0.48;
+    $currentData->pm25WoodSmoke = $record->pm_2p5 * 0.48;
     $currentData->pm25AqiValue = round($record->aqi_val, 1);
+    $currentData->pm25AqiValueWoodSmoke = round($record->aqi_val * 0.48, 1);
     $currentData->pm25AqiDesc = $record->aqi_desc;
 }
 
@@ -98,6 +99,9 @@ if ($aqSensor != null) {
     $trendData->avg = new stdClass();
     $trendData->avg->data = [];
     
+    $trendData->avgWoodSmoke = new stdClass();
+    $trendData->avgWoodSmoke->data = [];
+    
     $trendData->hi = new stdClass();
     $trendData->hi->data = [];
     
@@ -108,6 +112,9 @@ if ($aqSensor != null) {
         
         $avgArr = [$record->ts * 1000, round($record->aqi_avg_val, 1)];
         $trendData->avg->data[] = $avgArr;
+
+        $avgArr = [$record->ts * 1000, round($record->aqi_avg_val * 0.48, 1)];
+        $trendData->avgWoodSmoke->data[] = $avgArr;
         
         $hiArr = [$record->ts * 1000, round($record->aqi_hi_val, 1)];
         $trendData->hi->data[] = $hiArr;
@@ -244,7 +251,7 @@ if ($aqSensor != null) {
             }
         }, {
             name: 'AQI WS',
-            data: [<?php echo($currentData->pm25AqiValue * 0.48); ?>],
+            data: [<?php echo($currentData->pm25AqiValueWoodSmoke); ?>],
             dial: {
                 backgroundColor: '#ffffff',
                 borderColor: '#000000',
@@ -317,6 +324,10 @@ if ($aqSensor != null) {
             name: 'Avg',
             color: '#000000',
             data: <?php echo(json_encode($trendData->avg->data)); ?>
+        }, {
+            name: 'Avg Wood Smoke',
+            color: '#000000',
+            data: <?php echo(json_encode($trendData->avgWoodSmoke->data)); ?>
         }]
     });
 </script>
