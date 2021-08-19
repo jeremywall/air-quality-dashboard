@@ -177,6 +177,7 @@ if ($aqSensor != null) {
             plotBorderWidth: 0,
             plotShadow: false
         },
+        title: null,
         credits: {
             enabled: false
         },
@@ -250,9 +251,7 @@ if ($aqSensor != null) {
             plotBorderWidth: 0,
             plotShadow: false
         },
-        title: {
-            text: 'Last Updated: <?php echo($currentData->dateTime->format("M j, Y @ h:i A")); ?><br>Current PM 2.5 AQI<br><?php echo($currentData->pm25AqiDesc); ?>'
-        },
+        title: null,
         credits: {
             enabled: false
         },
