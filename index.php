@@ -140,6 +140,9 @@ if ($aqSensor != null) {
 <body>
 <div class="container">
     <div class="row">
+        <div id="title" class="col">Last Updated: <?php echo($currentData->dateTime->format("M j, Y @ h:i A")); ?><br>Current PM 2.5 AQI<br><?php echo($currentData->pm25AqiDesc); ?></div>
+    </div>
+    <div class="row">
         <div id="aqi-current-gauge-container1" class="col aqi-current-gauge-container"></div>
         <div id="aqi-current-gauge-container2" class="col aqi-current-gauge-container"></div>
     </div>
@@ -173,9 +176,6 @@ if ($aqSensor != null) {
             plotBackgroundImage: null,
             plotBorderWidth: 0,
             plotShadow: false
-        },
-        title: {
-            text: 'Last Updated: <?php echo($currentData->dateTime->format("M j, Y @ h:i A")); ?><br>Current PM 2.5 AQI<br><?php echo($currentData->pm25AqiDesc); ?>'
         },
         credits: {
             enabled: false
