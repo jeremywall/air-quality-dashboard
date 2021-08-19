@@ -146,7 +146,7 @@ if ($aqSensor != null) {
 <body>
 <div class="container">
     <div class="row">
-        <div id="title" class="col">Last Updated: <?php echo($currentData->dateTime->format("M j, Y @ h:i A")); ?><br>Current PM 2.5 AQI<br><?php echo($currentData->pm25AqiDesc); ?></div>
+        <div id="title" class="col"><figure class="text-center">Last Updated: <?php echo($currentData->dateTime->format("M j, Y @ h:i A")); ?><br>Current PM 2.5 AQI<br><?php echo($currentData->pm25AqiDesc); ?></figure></div>
     </div>
     <div class="row">
         <div id="aqi-current-gauge-container1" class="col aqi-current-gauge-container"></div>
