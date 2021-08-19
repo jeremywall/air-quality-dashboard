@@ -246,8 +246,8 @@ if ($aqSensor != null) {
             name: 'AQI WS',
             data: [<?php echo($currentData->pm25AqiValue * 0.48); ?>],
             dial: {
-                backgroundColor: '#999999',
-                borderColor: '#999999',
+                backgroundColor: '#ffffff',
+                borderColor: '#000000',
                 borderWidth: 1
             }
         }]
