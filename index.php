@@ -144,7 +144,7 @@ if ($aqSensor != null) {
 <title><?php echo( $siteTitle); ?></title>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div id="title" class="col"><figure class="text-center">Last Updated: <?php echo($currentData->dateTime->format("M j, Y @ h:i A")); ?><br>Current PM 2.5 AQI<br><?php echo($currentData->pm25AqiDesc); ?></figure></div>
     </div>
