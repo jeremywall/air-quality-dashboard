@@ -132,7 +132,7 @@ if ($aqSensor != null) {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css" integrity="sha512-F7WyTLiiiPqvu2pGumDR15med0MDkUIo5VTVyyfECR5DZmCnDhti9q5VID02ItWjq6fvDfMaBaDl2J3WdL1uxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style type="text/css">
 .aqi-current-gauge-container {
-    height: 400px;
+    height: 300px;
 }
 #aqi-trend-chart-container {
     height: 400px;
