@@ -9,7 +9,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "child-src 'self' app.netlify.com; script-src 'self' app.netlify.com netlify-cdp-loader.netlify.app;"
+    Content-Security-Policy = "child-src 'self' app.netlify.com; script-src 'self' app.netlify.com netlify-cdp-loader.netlify.app cdnjs.cloudflare.com;"
 
 [[redirects]]
   from = "/initialize"
