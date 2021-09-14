@@ -76,14 +76,13 @@ exports.handler = async function(event, context) {
     }
 
     const historicParameters = getParameters(getHistoricBaseParameters());
-    data.hp = historicParameters;
 
-    const historicUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/historic/" + currentParameters["station-id"] +
-        "?api-key=" + currentParameters["api-key"] +
-        "&api-signature=" + currentParameters["api-signature"] +
-        "&start-timestamp=" + currentParameters["start-timestamp"] +
-        "&end-timestamp=" + currentParameters["end-timestamp"] +
-        "&t=" + currentParameters["t"];
+    const historicUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/historic/" + historicParameters["station-id"] +
+        "?api-key=" + historicParameters["api-key"] +
+        "&api-signature=" + historicParameters["api-signature"] +
+        "&start-timestamp=" + historicParameters["start-timestamp"] +
+        "&end-timestamp=" + historicParameters["end-timestamp"] +
+        "&t=" + historicParameters["t"];
     const historicResponse = await fetch(historicUrl);
     const historicJson = await historicResponse.json();
     data.raw_historic = historicJson;
