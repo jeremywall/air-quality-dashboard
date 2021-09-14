@@ -26,7 +26,8 @@ function getParameters(baseParameters) {
     let sortedParameterNames = _.keys(baseParameters).sort();
 
     let stringToHash = "";
-    for (let parameterName in sortedParameterNames) {
+    for (let i = 0 ; i < sortedParameterNames.length ; i++) {
+        let parameterName = sortedParameterNames[i];
         stringToHash = stringToHash + parameterName + baseParameters[parameterName];
     }
     console.log(stringToHash);
