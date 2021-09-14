@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build" # your build command
+  publish = "./dist" # where your production ready client code lives AFTER your build command has run
+  ### functions = "./functions" # where your production ready lambda functions live AFTER your build command has run
+
+[functions]
+  directory = "./functions"
+
+[[redirects]]
+  from = "/refresh-data
+  to = "/.netlify/functions/refresh-data"
+  status = 200
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
