@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 
 function getCurrentBaseParameters() {
     let now = Math.floor(Date.now() / 1000);
-    let parameters = {
+    return {
         "api-key": process.env.WEATHERLINK_V2_API_KEY,
         "station-id": process.env.STATION_ID,
         "t": now
