@@ -24,7 +24,13 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div id="title" class="col"><figure class="text-center">Last Updated: <span id="last-updated">---</span><br>Current PM 2.5 AQI<br><span id="aqi-description">---</span></figure></div>
+        <div id="title" class="col">
+            <figure class="text-center">
+                Last Updated: <span id="last-updated">---</span>
+                Current PM 2.5 AQI
+                <span id="aqi-description">---</span>
+            </figure>
+        </div>
     </div>
     <div class="row">
         <div id="aqi-current-gauge-container" class="col aqi-current-gauge-container"></div>
@@ -45,7 +51,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts-more.min.js" integrity="sha512-6ihnpiPyliUGs7Kp28EbOs3yVw7W2z0n7HOO4udA+adzezinDHSidP5WlkyJXDBbiBmGo8PEgjO2k1IkhTmNvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 function setupCharts() {
-    Highcharts.chart('aqi-current-gauge-container', {
+    AQDB.charts.current = Highcharts.chart('aqi-current-gauge-container', {
         chart: {
             type: 'gauge',
             plotBackgroundColor: null,
@@ -54,9 +60,11 @@ function setupCharts() {
             plotShadow: false
         },
         title: {
-            text: 'Last 3 Hours Avg PM 2.5 AQI'
+            text: 'Current PM 2.5 AQI'
         },
-
+        subTitle: {
+            text: null
+        },
         credits: {
             enabled: false
         },
@@ -128,7 +136,7 @@ function setupCharts() {
         }]
     });
 
-    Highcharts.chart('aqi-historic-chart-container', {
+    AQDB.charts.historic = Highcharts.chart('aqi-historic-chart-container', {
         chart: {
             type: 'spline',
             plotBackgroundColor: null,
@@ -212,6 +220,10 @@ async function refreshData() {
     const json = await response.json();
     
 }
+
+const AQDB = {
+    charts: {}
+};
 
 $(async function() {
     Highcharts.setOptions({
