@@ -213,8 +213,12 @@ async function initialize() {
     });
 }
 
-async function refreshData() {
-    const response = await fetch("/refresh-data");
+async function refreshData(historic) {
+    let urlSearchParams = new URLSearchParams();
+    if (historic) {
+        urlSearchParams.append("historic", "true");
+    }
+    const response = await fetch("/refresh-data?" + urlSearchParams.toString());
     const json = await response.json();
     console.log(json);
 
@@ -251,7 +255,7 @@ $(async function() {
 
     setupCharts();
     await initialize();
-    await refreshData();
+    await refreshData(true);
 });
 </script>
 </body>

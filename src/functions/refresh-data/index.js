@@ -75,27 +75,29 @@ exports.handler = async function(event, context) {
         });
     }
 
-    const historicParameters = getParameters(getHistoricBaseParameters());
+    if (_.has(event.queryStringParameters, "historic") || new Date().getMinutes() % 5 == 0) {
+        const historicParameters = getParameters(getHistoricBaseParameters());
 
-    const historicUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/historic/" + historicParameters["station-id"] +
-        "?api-key=" + historicParameters["api-key"] +
-        "&api-signature=" + historicParameters["api-signature"] +
-        "&start-timestamp=" + historicParameters["start-timestamp"] +
-        "&end-timestamp=" + historicParameters["end-timestamp"] +
-        "&t=" + historicParameters["t"];
-    const historicResponse = await fetch(historicUrl);
-    const historicJson = await historicResponse.json();
-    data.raw_historic = historicJson;
+        const historicUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/historic/" + historicParameters["station-id"] +
+            "?api-key=" + historicParameters["api-key"] +
+            "&api-signature=" + historicParameters["api-signature"] +
+            "&start-timestamp=" + historicParameters["start-timestamp"] +
+            "&end-timestamp=" + historicParameters["end-timestamp"] +
+            "&t=" + historicParameters["t"];
+        const historicResponse = await fetch(historicUrl);
+        const historicJson = await historicResponse.json();
+        data.raw_historic = historicJson;
 
-    let historicSensor = _.find(historicJson.sensors, {lsid: sensorId});
-    if (!_.isNil(historicSensor)) {
-        for (let i = 0 ; i < historicSensor.data.length ; i++) {
-            let dataRecord = historicSensor.data[i];
+        let historicSensor = _.find(historicJson.sensors, {lsid: sensorId});
+        if (!_.isNil(historicSensor)) {
+            for (let i = 0 ; i < historicSensor.data.length ; i++) {
+                let dataRecord = historicSensor.data[i];
 
-            data.historic.data.push({
-                timestamp: dataRecord.ts,
-                pm25_aqi_value: _.round(dataRecord.aqi_avg_val, 1)
-            });
+                data.historic.data.push({
+                    timestamp: dataRecord.ts,
+                    pm25_aqi_value: _.round(dataRecord.aqi_avg_val, 1)
+                });
+            }
         }
     }
 
