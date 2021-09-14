@@ -195,7 +195,14 @@ function setup() {
 async function initialize() {
     const response = await fetch("/initialize");
     const json = await response.json();
-    console.log(json);
+
+    $("title").text(json.siteTitle);
+
+    Highcharts.setOptions({
+        time: {
+            timezone: json.timeZone
+        }
+    });
 }
 
 $(function() {
