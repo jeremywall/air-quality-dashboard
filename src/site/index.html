@@ -195,6 +195,7 @@ function setup() {
 async function initialize() {
     const response = await fetch("/initialize");
     const json = await response.json();
+    console.log(json);
 
     $("title").text(json.siteTitle);
 
@@ -212,7 +213,9 @@ $(function() {
         }
     });
 
+    console.log("woot 1");
     initialize();
+    console.log("woot 2");
 
 
     // var ajaxRefreshData = ajaxInit.then(function(data) {
