@@ -199,7 +199,7 @@ $(function() {
     });
     var ajaxRefreshData = ajaxInit.then(function(data) {
         console.log(data);
-        $(document).attr('title', data.siteTitle + ' Air Quality Dashboard');
+        $(document).attr('title', data.siteTitle);
 
         Highcharts.setOptions({
             time: {
