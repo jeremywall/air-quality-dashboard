@@ -9,7 +9,7 @@
 .aqi-current-gauge-container {
     height: 300px;
 }
-#aqi-trend-chart-container {
+#aqi-historic-chart-container {
     height: 400px;
 }
 #bottom-padding-container {
@@ -24,10 +24,10 @@
         <div id="title" class="col"><figure class="text-center">Last Updated: <span id="last-updated">---</span><br>Current PM 2.5 AQI<br><span id="aqi-description">---</span></figure></div>
     </div>
     <div class="row">
-        <div id="aqi-current-gauge-container1" class="col aqi-current-gauge-container"></div>
+        <div id="aqi-current-gauge-container" class="col aqi-current-gauge-container"></div>
     </div>
     <div class="row">
-        <div id="aqi-trend-chart-container" class="col"></div>
+        <div id="aqi-historic-chart-container" class="col"></div>
     </div>
     <div class="row">
         <div id="bottom-padding-container" class="col"></div>
@@ -41,14 +41,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts.min.js" integrity="sha512-kn4TcXE2oE4PiPDkcEqRHHjdNLTNDuk/OWjPlZKHGxfWGVpcBwutjJKdfUwhjlCtDB55YBEey3LqFMgJmigWIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts-more.min.js" integrity="sha512-6ihnpiPyliUGs7Kp28EbOs3yVw7W2z0n7HOO4udA+adzezinDHSidP5WlkyJXDBbiBmGo8PEgjO2k1IkhTmNvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-function setup() {
-    Highcharts.setOptions({
-        time: {
-            timezone: 'America/Los_Angeles'
-        }
-    });
-
-    Highcharts.chart('aqi-current-gauge-container1', {
+function setupCharts() {
+    Highcharts.chart('aqi-current-gauge-container', {
         chart: {
             type: 'gauge',
             plotBackgroundColor: null,
@@ -118,7 +112,8 @@ function setup() {
         },
         series: [{
             name: 'AQI',
-            data: [6.5],
+            // data: [6.5],
+            data: null,
             dial: {
                 backgroundColor: '#000000',
                 borderColor: '#000000',
@@ -127,7 +122,7 @@ function setup() {
         }]
     });
 
-    Highcharts.chart('aqi-trend-chart-container', {
+    Highcharts.chart('aqi-historic-chart-container', {
         chart: {
             type: 'spline',
             plotBackgroundColor: null,
@@ -205,6 +200,12 @@ async function initialize() {
     });
 }
 
+async function refreshData() {
+    const response = await fetch("/refresh-data");
+    const json = await response.json();
+    
+}
+
 $(async function() {
     Highcharts.setOptions({
         time: {
@@ -212,18 +213,9 @@ $(async function() {
         }
     });
 
+    setupCharts();
     await initialize();
-
-    // var ajaxRefreshData = ajaxInit.then(function(data) {
-    //     console.log(data);
-    //     $(document).attr('title', data.siteTitle);
-
-    //     Highcharts.setOptions({
-    //         time: {
-    //             timezone: data.timeZone
-    //         }
-    //     });
-    // });
+    await refreshData();
 });
 </script>
 </body>
