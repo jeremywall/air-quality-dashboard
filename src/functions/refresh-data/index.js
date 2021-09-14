@@ -33,14 +33,17 @@ function getParameters(baseParameters) {
 
     let hmac = crypto.createHmac("sha256", process.env.WEATHERLINK_V2_API_SECRET);
     hmac.update(stringToHash);
-    let apiSignature = hmac.digest("hex");
+    let apiSignature = hmac.digest("hex").toLowerCase();
     console.log(apiSignature);
 
+    sth = stringToHash;
 
     baseParameters["api-signature"] = apiSignature;
 
     return baseParameters;
 }
+
+let sth = "";
 
 exports.handler = async function(event, context) {
     const data = {
@@ -54,6 +57,8 @@ exports.handler = async function(event, context) {
             data: []    // { timestamp: number, pm25_aqi_value: number }
         }
     };
+
+    data.sth = sth;
 
     const sensorId = +process.env.SENSOR_ID;
 
