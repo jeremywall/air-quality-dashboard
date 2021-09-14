@@ -61,7 +61,7 @@ exports.handler = async function(event, context) {
         "&t=" + currentParameters["t"];
     const currentResponse = await fetch(currentUrl);
     const currentJson = await currentResponse.json();
-    data.extra = currentJson;
+    data.raw_current = currentJson;
 
     let currentSensor = _.find(currentJson.sensors, {lsid: sensorId});
     if (!_.isNil(currentSensor)) {
@@ -74,6 +74,30 @@ exports.handler = async function(event, context) {
             pm25_aqi_desc: dataRecord.aqi_desc,
         });
     }
+
+    const historicParameters = getParameters(getHistoricBaseParameters());
+
+    const historicUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/historic/" + currentParameters["station-id"] +
+        "?api-key=" + currentParameters["api-key"] +
+        "&api-signature=" + currentParameters["api-signature"] +
+        "&start-timestamp=" + currentParameters["start-timestamp"] +
+        "&end-timestamp=" + currentParameters["end-timestamp"] +
+        "&t=" + currentParameters["t"];
+    const historicResponse = await fetch(historicUrl);
+    const historicJson = await historicResponse.json();
+    data.raw_historic = historicJson;
+
+    // let historicSensor = _.find(historicJson.sensors, {lsid: sensorId});
+    // if (!_.isNil(historicSensor)) {
+        // let dataRecord = historicSensor.data[0];
+
+        // data.historic.data.push({
+        //     timestamp: dataRecord.ts,
+        //     pm25: dataRecord.pm_2p5,
+        //     pm25_aqi_value: _.round(dataRecord.aqi_val, 1),
+        //     pm25_aqi_desc: dataRecord.aqi_desc,
+        // });
+    // }
 
     return {
         statusCode: 200,
