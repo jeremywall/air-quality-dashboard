@@ -192,10 +192,6 @@ function setup() {
     });
 }
 
-function awaitInitialize() {
-    await initialize();
-}
-
 async function initialize() {
     const response = await fetch("/initialize");
     const json = await response.json();
@@ -218,7 +214,7 @@ $(async function() {
     });
 
     console.log("woot 1");
-    awaitInitialize();
+    await initialize();
     console.log("woot 2");
 
 
