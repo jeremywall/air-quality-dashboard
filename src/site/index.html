@@ -21,7 +21,7 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div id="title" class="col"><figure class="text-center">Last Updated: <span id="last-updated"></span><br>Current PM 2.5 AQI<br><span id="aqi-description"></figure></div>
+        <div id="title" class="col"><figure class="text-center">Last Updated: <span id="last-updated">---</span><br>Current PM 2.5 AQI<br><span id="aqi-description">---</span></figure></div>
     </div>
     <div class="row">
         <div id="aqi-current-gauge-container1" class="col aqi-current-gauge-container"></div>
@@ -41,157 +41,165 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts.min.js" integrity="sha512-kn4TcXE2oE4PiPDkcEqRHHjdNLTNDuk/OWjPlZKHGxfWGVpcBwutjJKdfUwhjlCtDB55YBEey3LqFMgJmigWIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts-more.min.js" integrity="sha512-6ihnpiPyliUGs7Kp28EbOs3yVw7W2z0n7HOO4udA+adzezinDHSidP5WlkyJXDBbiBmGo8PEgjO2k1IkhTmNvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-var tz = '${process.env.TIMEZONE}';
-Highcharts.setOptions({
-    time: {
-        timezone: 'America/Los_Angeles'
-    }
-});
+function setup() {
+    Highcharts.setOptions({
+        time: {
+            timezone: 'America/Los_Angeles'
+        }
+    });
 
-Highcharts.chart('aqi-current-gauge-container1', {
-    chart: {
-        type: 'gauge',
-        plotBackgroundColor: null,
-        plotBackgroundImage: null,
-        plotBorderWidth: 0,
-        plotShadow: false
-    },
-    title: null,
-    credits: {
-        enabled: false
-    },
-    pane: {
-        startAngle: -135,
-        endAngle: 135,
-        background: [ ]
-    },
-    // the value axis
-    yAxis: {
-        min: 0,
-        max: 500,
-        minorTickInterval: 'auto',
-        minorTickWidth: 1,
-        minorTickLength: 10,
-        minorTickPosition: 'inside',
-        minorTickColor: '#000',
-        tickPixelInterval: 30,
-        tickWidth: 2,
-        tickPosition: 'inside',
-        tickLength: 10,
-        tickColor: '#000',
-        labels: {
-            step: 2,
-            rotation: 'auto',
-            distance: 5
+    Highcharts.chart('aqi-current-gauge-container1', {
+        chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
         },
-        plotBands: [{
-            innerRadius: 50,
-            from: 0,
-            to: 50,
-            color: '#0bab8b' // green
-        }, {
-            innerRadius: 50,
-            from: 50,
-            to: 100,
-            color: '#ede400' // yellow
-        }, {
-            innerRadius: 50,
-            from: 100,
-            to: 150,
-            color: '#ed8b00' // orange
-        }, {
-            innerRadius: 50,
-            from: 150,
-            to: 200,
-            color: '#bd0000' // red
-        }, {
-            innerRadius: 50,
-            from: 200,
-            to: 300,
-            color: '#a7005b' // purple
-        }, {
-            innerRadius: 50,
-            from: 300,
-            to: 500,
-            color: '#5f0000' // maroon
-        }]
-    },
-    series: [{
-        name: 'AQI',
-        data: [6.5],
-        dial: {
-            backgroundColor: '#000000',
-            borderColor: '#000000',
-            borderWidth: 1
-        }
-    }]
-});
-
-Highcharts.chart('aqi-trend-chart-container', {
-    chart: {
-        type: 'spline',
-        plotBackgroundColor: null,
-        plotBackgroundImage: null,
-        plotBorderWidth: 0,
-        plotShadow: false
-    },
-    plotOptions: {
-        spline: {
-            dataLabels: {
-                enabled: true
-            }
-        }
-    },
-    title: {
-        text: 'Last 3 Hours Avg PM 2.5 AQI'
-    },
-    credits: {
-        enabled: false
-    },
-    yAxis: {
-        min: 0,
-        max: 500,
-        gridLineWidth: 0,
-        title: {
+        title: null,
+        credits: {
             enabled: false
         },
-        plotBands: [{
-            from: 0,
-            to: 50,
-            color: '#0bab8b55' // green
-        }, {
-            from: 50,
-            to: 100,
-            color: '#ede40055' // yellow
-        }, {
-            from: 100,
-            to: 150,
-            color: '#ed8b0055' // orange
-        }, {
-            from: 150,
-            to: 200,
-            color: '#bd000055' // red
-        }, {
-            from: 200,
-            to: 300,
-            color: '#a7005b55' // purple
-        }, {
-            from: 300,
-            to: 500,
-            color: '#5f000055' // maroon
+        pane: {
+            startAngle: -135,
+            endAngle: 135,
+            background: [ ]
+        },
+        // the value axis
+        yAxis: {
+            min: 0,
+            max: 500,
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#000',
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#000',
+            labels: {
+                step: 2,
+                rotation: 'auto',
+                distance: 5
+            },
+            plotBands: [{
+                innerRadius: 50,
+                from: 0,
+                to: 50,
+                color: '#0bab8b' // green
+            }, {
+                innerRadius: 50,
+                from: 50,
+                to: 100,
+                color: '#ede400' // yellow
+            }, {
+                innerRadius: 50,
+                from: 100,
+                to: 150,
+                color: '#ed8b00' // orange
+            }, {
+                innerRadius: 50,
+                from: 150,
+                to: 200,
+                color: '#bd0000' // red
+            }, {
+                innerRadius: 50,
+                from: 200,
+                to: 300,
+                color: '#a7005b' // purple
+            }, {
+                innerRadius: 50,
+                from: 300,
+                to: 500,
+                color: '#5f0000' // maroon
+            }]
+        },
+        series: [{
+            name: 'AQI',
+            data: [6.5],
+            dial: {
+                backgroundColor: '#000000',
+                borderColor: '#000000',
+                borderWidth: 1
+            }
         }]
-    },
-    xAxis: {
-        type: 'datetime'
-    },
-    series: [{
-        name: 'Avg',
-        color: '#000000',
-        data: [[1631578500000,0.9],[1631578800000,0],[1631579100000,1.2],[1631579400000,3.1],[1631579700000,2.1],[1631580000000,0.8],[1631580300000,1.1],[1631580600000,2.8],[1631580900000,4.1],[1631581200000,3.3],[1631581500000,2.4],[1631581800000,7.2],[1631582100000,6.1],[1631582400000,3.5],[1631582700000,2],[1631583000000,2.4],[1631583300000,4.8],[1631583600000,2.6],[1631583900000,5.3],[1631584200000,7.6],[1631584500000,4.8],[1631584800000,4.8],[1631585100000,3.7],[1631585400000,3.9],[1631585700000,4.3],[1631586000000,3.8],[1631586300000,5.3],[1631586600000,5.7],[1631586900000,5.4],[1631587200000,6.5],[1631587500000,6.6],[1631587800000,4.6],[1631588100000,4.9],[1631588400000,7.7],[1631588700000,6.4],[1631589000000,6.8]]
-    }]
-});
+    });
+
+    Highcharts.chart('aqi-trend-chart-container', {
+        chart: {
+            type: 'spline',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        plotOptions: {
+            spline: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        title: {
+            text: 'Last 3 Hours Avg PM 2.5 AQI'
+        },
+        credits: {
+            enabled: false
+        },
+        yAxis: {
+            min: 0,
+            max: 500,
+            gridLineWidth: 0,
+            title: {
+                enabled: false
+            },
+            plotBands: [{
+                from: 0,
+                to: 50,
+                color: '#0bab8b55' // green
+            }, {
+                from: 50,
+                to: 100,
+                color: '#ede40055' // yellow
+            }, {
+                from: 100,
+                to: 150,
+                color: '#ed8b0055' // orange
+            }, {
+                from: 150,
+                to: 200,
+                color: '#bd000055' // red
+            }, {
+                from: 200,
+                to: 300,
+                color: '#a7005b55' // purple
+            }, {
+                from: 300,
+                to: 500,
+                color: '#5f000055' // maroon
+            }]
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        series: [{
+            name: 'Avg',
+            color: '#000000',
+            data: [[1631578500000,0.9],[1631578800000,0],[1631579100000,1.2],[1631579400000,3.1],[1631579700000,2.1],[1631580000000,0.8],[1631580300000,1.1],[1631580600000,2.8],[1631580900000,4.1],[1631581200000,3.3],[1631581500000,2.4],[1631581800000,7.2],[1631582100000,6.1],[1631582400000,3.5],[1631582700000,2],[1631583000000,2.4],[1631583300000,4.8],[1631583600000,2.6],[1631583900000,5.3],[1631584200000,7.6],[1631584500000,4.8],[1631584800000,4.8],[1631585100000,3.7],[1631585400000,3.9],[1631585700000,4.3],[1631586000000,3.8],[1631586300000,5.3],[1631586600000,5.7],[1631586900000,5.4],[1631587200000,6.5],[1631587500000,6.6],[1631587800000,4.6],[1631588100000,4.9],[1631588400000,7.7],[1631588700000,6.4],[1631589000000,6.8]]
+        }]
+    });
+}
 
 $(function() {
+    var ajaxInit = $.ajax({
+        url: '/initialize',
+        dataType: 'json'
+    });
+    var ajaxRefreshData = ajaxInit.then(function(data) {
+        console.log(data);
+    });
 });
 </script>
 </body>
