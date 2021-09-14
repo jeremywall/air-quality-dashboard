@@ -57,11 +57,13 @@ exports.handler = async function(event, context) {
     const currentParameters = getParameters(getCurrentBaseParameters());
     data.woot = currentParameters;
 
-    const currentResponse = await fetch(process.env.WEATHERLINK_V2_API_BASE_URL + "/current/" + currentParameters["station-id"] +
-        "?api-key=" + currentParameters["api-key"] +
-        "&api-signature=" + currentParameters["api-signature"] +
-        "&t=" + currentParameters["t"]
-    );
+    let url = process.env.WEATHERLINK_V2_API_BASE_URL + "/current/" + currentParameters["station-id"] +
+    "?api-key=" + currentParameters["api-key"] +
+    "&api-signature=" + currentParameters["api-signature"] +
+    "&t=" + currentParameters["t"];
+    data.url = url;
+
+    const currentResponse = await fetch(url);
     const currentJson = await currentResponse.json();
 
     data.extra = currentJson;
