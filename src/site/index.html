@@ -196,7 +196,7 @@ async function initialize() {
     const response = await fetch("/initialize");
     const json = await response.json();
 
-    $("html head title").text(json.siteTitle);
+    $("html > head > title").text(json.siteTitle);
 
     Highcharts.setOptions({
         time: {
