@@ -215,7 +215,7 @@ async function initialize() {
 
 async function refreshData(historic) {
     let urlSearchParams = new URLSearchParams();
-    if (historic) {
+    if (_.isBoolean(historic) && historic === true) {
         urlSearchParams.append("historic", "true");
     }
     const response = await fetch("/refresh-data?" + urlSearchParams.toString());
@@ -240,6 +240,10 @@ async function refreshData(historic) {
 
         AQDB.charts.historic.series[0].setData(chartData);
     }
+
+    setTimeout(function() {
+        refreshData();
+    }, 60 * 1000);
 }
 
 const AQDB = {
