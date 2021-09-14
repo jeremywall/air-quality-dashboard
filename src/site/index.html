@@ -1,1 +1,197 @@
-AQDB 2
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.1/css/bootstrap.min.css" integrity="sha512-6KY5s6UI5J7SVYuZB4S/CZMyPylqyyNZco376NM2Z8Sb8OxEdp02e1jkKk/wZxIEmjQ6DRCEBhni+gpr9c4tvA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<style type="text/css">
+.aqi-current-gauge-container {
+    height: 300px;
+}
+#aqi-trend-chart-container {
+    height: 400px;
+}
+#bottom-padding-container {
+    height: 200px;
+}
+</style>
+<title>Air Quality Dashboard</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div id="title" class="col"><figure class="text-center">Last Updated: <span id="last-updated"></span><br>Current PM 2.5 AQI<br><span id="aqi-description"></figure></div>
+    </div>
+    <div class="row">
+        <div id="aqi-current-gauge-container1" class="col aqi-current-gauge-container"></div>
+    </div>
+    <div class="row">
+        <div id="aqi-trend-chart-container" class="col"></div>
+    </div>
+    <div class="row">
+        <div id="bottom-padding-container" class="col"></div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.1/js/bootstrap.bundle.min.js" integrity="sha512-trzlduO3EdG7Q0xK4+A+rPbcolVt37ftugUSOvrHhLR5Yw5rsfWXcpB3CPuEBcRBCHpc+j18xtQ6YrtVPKCdsg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.slim.min.js" integrity="sha512-6ORWJX/LrnSjBzwefdNUyLCMTIsGoNP6NftMy2UAm1JBm6PRZCO1d7OHBStWpVFZLO+RerTvqX/Z9mBFfCJZ4A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data.min.js" integrity="sha512-rjmacQUGnwQ4OAAt3MoAmWDQIuswESNZwYcKC8nmdCIxAVkRC/Lk2ta2CWGgCZyS+FfBWPgaO01LvgwU/BX50Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts.min.js" integrity="sha512-kn4TcXE2oE4PiPDkcEqRHHjdNLTNDuk/OWjPlZKHGxfWGVpcBwutjJKdfUwhjlCtDB55YBEey3LqFMgJmigWIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts-more.min.js" integrity="sha512-6ihnpiPyliUGs7Kp28EbOs3yVw7W2z0n7HOO4udA+adzezinDHSidP5WlkyJXDBbiBmGo8PEgjO2k1IkhTmNvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+Highcharts.setOptions({
+    time: {
+        timezone: 'America/Los_Angeles'
+    }
+});
+
+Highcharts.chart('aqi-current-gauge-container1', {
+    chart: {
+        type: 'gauge',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+    title: null,
+    credits: {
+        enabled: false
+    },
+    pane: {
+        startAngle: -135,
+        endAngle: 135,
+        background: [ ]
+    },
+    // the value axis
+    yAxis: {
+        min: 0,
+        max: 500,
+        minorTickInterval: 'auto',
+        minorTickWidth: 1,
+        minorTickLength: 10,
+        minorTickPosition: 'inside',
+        minorTickColor: '#000',
+        tickPixelInterval: 30,
+        tickWidth: 2,
+        tickPosition: 'inside',
+        tickLength: 10,
+        tickColor: '#000',
+        labels: {
+            step: 2,
+            rotation: 'auto',
+            distance: 5
+        },
+        plotBands: [{
+            innerRadius: 50,
+            from: 0,
+            to: 50,
+            color: '#0bab8b' // green
+        }, {
+            innerRadius: 50,
+            from: 50,
+            to: 100,
+            color: '#ede400' // yellow
+        }, {
+            innerRadius: 50,
+            from: 100,
+            to: 150,
+            color: '#ed8b00' // orange
+        }, {
+            innerRadius: 50,
+            from: 150,
+            to: 200,
+            color: '#bd0000' // red
+        }, {
+            innerRadius: 50,
+            from: 200,
+            to: 300,
+            color: '#a7005b' // purple
+        }, {
+            innerRadius: 50,
+            from: 300,
+            to: 500,
+            color: '#5f0000' // maroon
+        }]
+    },
+    series: [{
+        name: 'AQI',
+        data: [6.5],
+        dial: {
+            backgroundColor: '#000000',
+            borderColor: '#000000',
+            borderWidth: 1
+        }
+    }]
+});
+
+Highcharts.chart('aqi-trend-chart-container', {
+    chart: {
+        type: 'spline',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+    plotOptions: {
+        spline: {
+            dataLabels: {
+                enabled: true
+            }
+        }
+    },
+    title: {
+        text: 'Last 3 Hours Avg PM 2.5 AQI'
+    },
+    credits: {
+        enabled: false
+    },
+    yAxis: {
+        min: 0,
+        max: 500,
+        gridLineWidth: 0,
+        title: {
+            enabled: false
+        },
+        plotBands: [{
+            from: 0,
+            to: 50,
+            color: '#0bab8b55' // green
+        }, {
+            from: 50,
+            to: 100,
+            color: '#ede40055' // yellow
+        }, {
+            from: 100,
+            to: 150,
+            color: '#ed8b0055' // orange
+        }, {
+            from: 150,
+            to: 200,
+            color: '#bd000055' // red
+        }, {
+            from: 200,
+            to: 300,
+            color: '#a7005b55' // purple
+        }, {
+            from: 300,
+            to: 500,
+            color: '#5f000055' // maroon
+        }]
+    },
+    xAxis: {
+        type: 'datetime'
+    },
+    series: [{
+        name: 'Avg',
+        color: '#000000',
+        data: [[1631578500000,0.9],[1631578800000,0],[1631579100000,1.2],[1631579400000,3.1],[1631579700000,2.1],[1631580000000,0.8],[1631580300000,1.1],[1631580600000,2.8],[1631580900000,4.1],[1631581200000,3.3],[1631581500000,2.4],[1631581800000,7.2],[1631582100000,6.1],[1631582400000,3.5],[1631582700000,2],[1631583000000,2.4],[1631583300000,4.8],[1631583600000,2.6],[1631583900000,5.3],[1631584200000,7.6],[1631584500000,4.8],[1631584800000,4.8],[1631585100000,3.7],[1631585400000,3.9],[1631585700000,4.3],[1631586000000,3.8],[1631586300000,5.3],[1631586600000,5.7],[1631586900000,5.4],[1631587200000,6.5],[1631587500000,6.6],[1631587800000,4.6],[1631588100000,4.9],[1631588400000,7.7],[1631588700000,6.4],[1631589000000,6.8]]
+    }]
+});
+
+$(function() {
+});
+</script>
+</body>
+</html>
