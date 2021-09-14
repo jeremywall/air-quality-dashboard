@@ -1,6 +1,7 @@
 const _ = require("lodash");
-const fetch = require("node-fetch");
 const crypto = require("crypto");
+
+import fetch from "node-fetch";
 
 exports.handler = async function(event, context) {
     const data = {
