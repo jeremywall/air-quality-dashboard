@@ -5,6 +5,7 @@
     "build": "rm -rf dist && rm -rf functions && cp -r src/functions functions && cp -r src/site dist"
   },
   "dependencies": {
+    "node-fetch": "3.0.0",
     "lodash": "4.17.21"
   }
 }
