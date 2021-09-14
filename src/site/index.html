@@ -63,7 +63,7 @@ function setupCharts() {
             text: 'Current PM 2.5 AQI'
         },
         subTitle: {
-            text: null
+            text: ''
         },
         credits: {
             enabled: false
@@ -218,7 +218,6 @@ async function initialize() {
 async function refreshData() {
     const response = await fetch("/refresh-data");
     const json = await response.json();
-    
 }
 
 const AQDB = {
