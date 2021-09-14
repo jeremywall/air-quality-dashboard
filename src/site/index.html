@@ -204,11 +204,11 @@ async function initialize() {
     const response = await fetch("/initialize");
     const json = await response.json();
 
-    $("html > head > title").text(json.siteTitle);
+    $("html > head > title").text(json.title);
 
     Highcharts.setOptions({
         time: {
-            timezone: json.timeZone
+            timezone: json.timezone
         }
     });
 }
