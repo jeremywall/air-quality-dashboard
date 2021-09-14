@@ -29,10 +29,13 @@ function getParameters(baseParameters) {
     for (let parameterName in sortedParameterNames) {
         stringToHash = stringToHash + parameterName + baseParameters[parameterName];
     }
+    console.log(stringToHash);
 
     let hmac = crypto.createHmac("sha256", process.env.WEATHERLINK_V2_API_SECRET);
     hmac.update(stringToHash);
     let apiSignature = hmac.digest("hex");
+    console.log(apiSignature);
+
 
     baseParameters["api-signature"] = apiSignature;
 
