@@ -75,7 +75,7 @@ exports.handler = async function(event, context) {
         });
     }
 
-    if (_.has(event.queryStringParameters, "historic") || new Date().getMinutes() % 5 == 0) {
+    if (_.has(event.queryStringParameters, "historic")) {
         const historicParameters = getParameters(getHistoricBaseParameters());
 
         const historicUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/historic/" + historicParameters["station-id"] +

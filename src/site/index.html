@@ -228,7 +228,7 @@ async function refreshData(historic) {
         $("#last-updated").text(moment.unix(data.timestamp).format("MMM D, YYYY @ hh:mm A"));
         
         AQDB.charts.current.setSubtitle({ text: data.pm25_aqi_desc });
-        AQDB.charts.current.series[0].setData([60]);
+        AQDB.charts.current.series[0].setData([data.pm25_aqi_value]);
     }
 
     if (json.historic.data.length > 0) {
@@ -242,7 +242,11 @@ async function refreshData(historic) {
     }
 
     setTimeout(function() {
-        refreshData();
+        if ((new Date().getMinutes() - 1) % 5 == 0) {
+            refreshData(true);
+        } else {
+            refreshData();
+        }
     }, 60 * 1000);
 }
 
