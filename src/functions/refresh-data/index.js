@@ -30,52 +30,50 @@ function getParameters(baseParameters) {
         let parameterName = sortedParameterNames[i];
         stringToHash = stringToHash + parameterName + baseParameters[parameterName];
     }
-    console.log(stringToHash);
 
     let hmac = crypto.createHmac("sha256", process.env.WEATHERLINK_V2_API_SECRET);
     hmac.update(stringToHash);
     let apiSignature = hmac.digest("hex").toLowerCase();
-    console.log(apiSignature);
 
-    sth = stringToHash;
+    let parameters = _.clone(baseParameters);
+    parameters["api-signature"] = apiSignature;
 
-    baseParameters["api-signature"] = apiSignature;
-
-    return baseParameters;
+    return parameters;
 }
-
-let sth = "";
 
 exports.handler = async function(event, context) {
     const data = {
         current: {
-            timestamp: null, // number
-            pm25: null, // number
-            pm25_aqi_value: null, // number
-            pm25_aqi_desc: null // string
+            data: []    // { timestamp: number, pm25: number, pm25_aqi_value: number, pm25_aqi_desc: string }
         },
         historic: {
             data: []    // { timestamp: number, pm25_aqi_value: number }
         }
     };
 
-    data.sth = sth;
-
     const sensorId = +process.env.SENSOR_ID;
 
     const currentParameters = getParameters(getCurrentBaseParameters());
-    data.woot = currentParameters;
 
-    let url = process.env.WEATHERLINK_V2_API_BASE_URL + "/current/" + currentParameters["station-id"] +
-    "?api-key=" + currentParameters["api-key"] +
-    "&api-signature=" + currentParameters["api-signature"] +
-    "&t=" + currentParameters["t"];
-    data.url = url;
-
-    const currentResponse = await fetch(url);
+    const currentUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/current/" + currentParameters["station-id"] +
+        "?api-key=" + currentParameters["api-key"] +
+        "&api-signature=" + currentParameters["api-signature"] +
+        "&t=" + currentParameters["t"];
+    const currentResponse = await fetch(currentUrl);
     const currentJson = await currentResponse.json();
-
     data.extra = currentJson;
+
+    let currentSensor = _.find(currentJson.sensors, {lsid: sensorId});
+    if (!_.isNil(currentSensor)) {
+        let dataRecord = currentSensor.data[0];
+
+        data.current.data.push({
+            timestamp: dataRecord.ts,
+            pm25: dataRecord.pm_2p5,
+            pm25_aqi_value: _.round(dataRecord.aqi_val, 1),
+            pm25_aqi_desc: dataRecord.aqi_desc,
+        });
+    }
 
     return {
         statusCode: 200,
