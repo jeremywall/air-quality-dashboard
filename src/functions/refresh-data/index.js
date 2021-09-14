@@ -1,10 +1,16 @@
 const _ = require("lodash");
+const crypto = require("crypto");
 
 exports.handler = async function(event, context) {
-    let data = {
-      hello: "world"
+    const data = {
+        current: {
+            
+        },
+        historic: {
+
+        }
     };
-    data = _.orderBy(data, ['epoch_of_change', 'zone'], ['asc', 'asc']);
+
     return {
         statusCode: 200,
         headers: {
