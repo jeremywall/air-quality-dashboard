@@ -7,7 +7,7 @@
   directory = "./functions"
 
 [[redirects]]
-  from = "/refresh-data
+  from = "/refresh-data"
   to = "/.netlify/functions/refresh-data"
   status = 200
 [[redirects]]
