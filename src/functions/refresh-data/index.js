@@ -76,6 +76,7 @@ exports.handler = async function(event, context) {
     }
 
     const historicParameters = getParameters(getHistoricBaseParameters());
+    data.hp = historicParameters;
 
     const historicUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/historic/" + currentParameters["station-id"] +
         "?api-key=" + currentParameters["api-key"] +
