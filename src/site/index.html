@@ -192,21 +192,30 @@ function setup() {
     });
 }
 
-$(function() {
-    var ajaxInit = $.ajax({
-        url: '/initialize',
-        dataType: 'json'
-    });
-    var ajaxRefreshData = ajaxInit.then(function(data) {
-        console.log(data);
-        $(document).attr('title', data.siteTitle);
+async function initialize() {
+    const response = await fetch("/initialize");
+    const json = await response.json();
+    console.log(json);
+}
 
-        Highcharts.setOptions({
-            time: {
-                timezone: data.timeZone
-            }
-        });
+$(function() {
+    Highcharts.setOptions({
+        time: {
+            timezone: 'UTC'
+        }
     });
+
+
+    // var ajaxRefreshData = ajaxInit.then(function(data) {
+    //     console.log(data);
+    //     $(document).attr('title', data.siteTitle);
+
+    //     Highcharts.setOptions({
+    //         time: {
+    //             timezone: data.timeZone
+    //         }
+    //     });
+    // });
 });
 </script>
 </body>
