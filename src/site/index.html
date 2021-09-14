@@ -226,6 +226,16 @@ async function refreshData() {
         AQDB.charts.current.setSubtitle({ text: data.pm25_aqi_desc });
         AQDB.charts.current.series[0].setData([60]);
     }
+
+    if (json.historic.data.length > 0) {
+        let chartData = [];
+        for(let i = 0 ; i < json.historic.data.length ; i++) {
+            let data = json.historic.data[i];
+            chartData.push([data.timestamp * 1000, data.pm25_aqi_value]);
+        }
+
+        AQDB.charts.historic.series[0].setData(chartData);
+    }
 }
 
 const AQDB = {
