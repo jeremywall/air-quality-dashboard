@@ -41,6 +41,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts.min.js" integrity="sha512-kn4TcXE2oE4PiPDkcEqRHHjdNLTNDuk/OWjPlZKHGxfWGVpcBwutjJKdfUwhjlCtDB55YBEey3LqFMgJmigWIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts-more.min.js" integrity="sha512-6ihnpiPyliUGs7Kp28EbOs3yVw7W2z0n7HOO4udA+adzezinDHSidP5WlkyJXDBbiBmGo8PEgjO2k1IkhTmNvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+var tz = '${process.env.TIMEZONE}';
 Highcharts.setOptions({
     time: {
         timezone: 'America/Los_Angeles'
