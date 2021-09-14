@@ -6,6 +6,11 @@
 [functions]
   directory = "./functions"
 
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "child-src 'self' app.netlify.com; script-src 'self' app.netlify.com netlify-cdp-loader.netlify.app;"
+
 [[redirects]]
   from = "/initialize"
   to = "/.netlify/functions/initialize"
