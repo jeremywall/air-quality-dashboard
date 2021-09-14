@@ -34,10 +34,9 @@ function getParameters(baseParameters) {
     hmac.update(stringToHash);
     let apiSignature = hmac.digest("hex");
 
-    let parameters = _.clone(baseParameters);
-    parameters["api-signature"] = apiSignature;
+    baseParameters["api-signature"] = apiSignature;
 
-    return parameters;
+    return baseParameters;
 }
 
 exports.handler = async function(event, context) {
