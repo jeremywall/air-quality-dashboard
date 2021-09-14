@@ -1,0 +1,10 @@
+{
+  "name": "air-quality-dashboard",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "rm -rf dist && rm -rf functions && cp -r src/functions functions && cp -r src/site dist"
+  },
+  "dependencies": {
+    "lodash": "4.17.21"
+  }
+}
