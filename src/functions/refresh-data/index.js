@@ -87,17 +87,17 @@ exports.handler = async function(event, context) {
     const historicJson = await historicResponse.json();
     data.raw_historic = historicJson;
 
-    // let historicSensor = _.find(historicJson.sensors, {lsid: sensorId});
-    // if (!_.isNil(historicSensor)) {
-        // let dataRecord = historicSensor.data[0];
+    let historicSensor = _.find(historicJson.sensors, {lsid: sensorId});
+    if (!_.isNil(historicSensor)) {
+        for (let i = 0 ; i < historicSensor.data.length ; i++) {
+            let dataRecord = historicSensor.data[i];
 
-        // data.historic.data.push({
-        //     timestamp: dataRecord.ts,
-        //     pm25: dataRecord.pm_2p5,
-        //     pm25_aqi_value: _.round(dataRecord.aqi_val, 1),
-        //     pm25_aqi_desc: dataRecord.aqi_desc,
-        // });
-    // }
+            data.historic.data.push({
+                timestamp: dataRecord.ts,
+                pm25_aqi_value: _.round(dataRecord.aqi_avg_val, 1)
+            });
+        }
+    }
 
     return {
         statusCode: 200,
