@@ -217,6 +217,12 @@ async function refreshData() {
     const response = await fetch("/refresh-data");
     const json = await response.json();
     console.log(json);
+
+    if (json.current.data.length > 0) {
+        let data = json.current.data[0];
+        AQDB.charts.current.setSubtitle({ text: data.pm25_aqi_desc });
+        AQDB.charts.current.series[0].setData([60]);
+    }
 }
 
 const AQDB = {
