@@ -55,6 +55,7 @@ exports.handler = async function(event, context) {
     const sensorId = +process.env.SENSOR_ID;
 
     const currentParameters = getParameters(getCurrentBaseParameters());
+    data.woot = currentParameters;
 
     const currentResponse = await fetch(process.env.WEATHERLINK_V2_API_BASE_URL + "/current/" + currentParameters["station-id"] +
         "?api-key=" + currentParameters["api-key"] +
