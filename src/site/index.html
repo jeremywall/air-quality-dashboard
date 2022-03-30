@@ -47,6 +47,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data.min.js" integrity="sha512-rjmacQUGnwQ4OAAt3MoAmWDQIuswESNZwYcKC8nmdCIxAVkRC/Lk2ta2CWGgCZyS+FfBWPgaO01LvgwU/BX50Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts.min.js" integrity="sha512-kn4TcXE2oE4PiPDkcEqRHHjdNLTNDuk/OWjPlZKHGxfWGVpcBwutjJKdfUwhjlCtDB55YBEey3LqFMgJmigWIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/highcharts-more.min.js" integrity="sha512-6ihnpiPyliUGs7Kp28EbOs3yVw7W2z0n7HOO4udA+adzezinDHSidP5WlkyJXDBbiBmGo8PEgjO2k1IkhTmNvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/9.2.0/modules/no-data-to-display.min.js" integrity="sha512-/NwiFH3U53dwMU1WCBqARJshGVKGXrP6AvQ4AsOA8KtAM6zMWRoq6tb+BLgeTsHaVzrMYzfKIfZ49VDNSCOPZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script nonce="98f7v9d8f7gd">
 function setupCharts() {
     AQDB.charts.current = Highcharts.chart('aqi-current-gauge-container', {
@@ -232,8 +233,6 @@ async function refreshData(historic) {
         AQDB.charts.current.setSubtitle({ text: data.pm25_aqi_desc });
         AQDB.charts.current.series[0].setData([data.pm25_aqi_value]);
         AQDB.charts.current.hideLoading();
-    } else {
-        AQDB.charts.current.showLoading("No data available");
     }
 
     if (json.historic.data.length > 0) {
@@ -245,8 +244,6 @@ async function refreshData(historic) {
 
         AQDB.charts.historic.series[0].setData(chartData);
         AQDB.charts.historic.hideLoading();
-    } else {
-        AQDB.charts.historic.showLoading("No data available");
     }
 
     setTimeout(function() {
