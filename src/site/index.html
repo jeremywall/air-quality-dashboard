@@ -232,8 +232,8 @@ async function refreshData(historic) {
         
         AQDB.charts.current.setSubtitle({ text: data.pm25_aqi_desc });
         AQDB.charts.current.series[0].setData([data.pm25_aqi_value]);
-        AQDB.charts.current.hideLoading();
     }
+    AQDB.charts.current.hideLoading();
 
     if (json.historic.data.length > 0) {
         let chartData = [];
@@ -243,8 +243,8 @@ async function refreshData(historic) {
         }
 
         AQDB.charts.historic.series[0].setData(chartData);
-        AQDB.charts.historic.hideLoading();
     }
+    AQDB.charts.historic.hideLoading();
 
     setTimeout(function() {
         if ((new Date().getMinutes() - 1) % 5 == 0) {
