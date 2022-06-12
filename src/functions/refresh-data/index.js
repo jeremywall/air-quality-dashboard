@@ -62,6 +62,7 @@ exports.handler = async function(event, context) {
     const currentResponse = await fetch(currentUrl);
     const currentJson = await currentResponse.json();
     data.raw_current = currentJson;
+    data.url_current = currentUrl;
 
     let currentSensor = _.find(currentJson.sensors, {lsid: sensorId});
     if (!_.isNil(currentSensor)) {
@@ -87,6 +88,7 @@ exports.handler = async function(event, context) {
         const historicResponse = await fetch(historicUrl);
         const historicJson = await historicResponse.json();
         data.raw_historic = historicJson;
+        data.url_historic = historicUrl;
 
         let historicSensor = _.find(historicJson.sensors, {lsid: sensorId});
         if (!_.isNil(historicSensor)) {
