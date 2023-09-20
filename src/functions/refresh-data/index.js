@@ -47,7 +47,6 @@ exports.handler = async function(event, context) {
     let currentSensor = _.find(currentJson.sensors, {lsid: sensorId});
     if (!_.isNil(currentSensor)) {
         let dataRecord = currentSensor.data[0];
-        console.log(dataRecord);
 
         data.current.data.push({
             timestamp: dataRecord.ts,
