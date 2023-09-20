@@ -1,7 +1,50 @@
 const _ = require("lodash");
 const crypto = require("crypto");
 const fetch = require('node-fetch');
-const aqi = require('aqi-us');
+
+const aqi_breakpoints = [
+    [0, 50],
+    [51, 100],
+    [101, 150],
+    [151, 200],
+    [201, 300],
+    [301, 400],
+    [401, 500],
+];
+
+const pm25_breakpoints = [
+    [0.0, 12.0],
+    [12.1, 35.4],
+    [35.5, 55.4],
+    [55.5, 150.4],
+    [150.5, 250.4],
+    [250.5, 350.4],
+    [350.5, 500.4],
+];
+
+function breakpointIndex(value, breakpoints) {
+    return _.findIndex(breakpoints, function(breakpoint) {
+        if (null === breakpoint) {
+            return false;
+        }
+        return breakpoint[0] <= value && value <= breakpoint[1];
+    });
+}
+
+function aqi(concentration, breakpoints) {
+    let index = breakpointIndex(concentration, breakpoints);
+
+    if (-1 === index) {
+        return NaN;
+    }
+
+    let i_high = aqi_breakpoints[index][1];
+    let i_low = aqi_breakpoints[index][0];
+    let c_high = breakpoints[index][1];
+    let c_low = breakpoints[index][0];
+
+    return (i_high - i_low) / (c_high - c_low) * (concentration - c_low) + i_low;
+}
 
 function getCurrentBaseParameters() {
     let now = Math.floor(Date.now() / 1000);
@@ -54,8 +97,9 @@ exports.handler = async function(event, context) {
             pm25: dataRecord.pm_2p5,
             pm25_aqi_value: _.round(dataRecord.aqi_val, 1),
             pm25_aqi_desc: dataRecord.aqi_desc,
-            pm25_aqi_value_calc: aqi.pm25(dataRecord.pm_2p5),
-            pm25_aqi_value_ws_calc: aqi.pm25(dataRecord.pm_2p5 * 0.48)
+            pm25_ws: dataRecord.pm_2p5 * 0.48,
+            pm25_aqi_value_calc: aqi(dataRecord.pm_2p5),
+            pm25_aqi_value_ws_calc: aqi(dataRecord.pm_2p5 * 0.48)
         });
     }
 

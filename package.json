@@ -6,7 +6,6 @@
   },
   "dependencies": {
     "node-fetch": "2.6.2",
-    "lodash": "4.17.21",
-    "aqi-us": "0.3.0"
+    "lodash": "4.17.21"
   }
 }
