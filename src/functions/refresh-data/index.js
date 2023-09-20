@@ -1,6 +1,7 @@
 const _ = require("lodash");
 const crypto = require("crypto");
 const fetch = require('node-fetch');
+const aqi = require('aqi-us');
 
 function getCurrentBaseParameters() {
     let now = Math.floor(Date.now() / 1000);
@@ -53,6 +54,8 @@ exports.handler = async function(event, context) {
             pm25: dataRecord.pm_2p5,
             pm25_aqi_value: _.round(dataRecord.aqi_val, 1),
             pm25_aqi_desc: dataRecord.aqi_desc,
+            pm25_aqi_value_calc: aqi.pm25(dataRecord.pm_2p5),
+            pm25_aqi_value_ws_calc: aqi.pm25(dataRecord.pm_2p5 * 0.48)
         });
     }
 
