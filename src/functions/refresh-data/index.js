@@ -6,8 +6,7 @@ function getCurrentBaseParameters() {
     let now = Math.floor(Date.now() / 1000);
     return {
         "api-key": process.env.WEATHERLINK_V2_API_KEY,
-        "station-id": process.env.STATION_ID,
-        "t": now
+        "station-id": process.env.STATION_ID
     };
 }
 
@@ -17,28 +16,8 @@ function getHistoricBaseParameters() {
         "api-key": process.env.WEATHERLINK_V2_API_KEY,
         "station-id": process.env.STATION_ID,
         "start-timestamp": now - (3600 * 3),
-        "end-timestamp": now,
-        "t": now
+        "end-timestamp": now
     };
-}
-
-function getParameters(baseParameters) {
-    let sortedParameterNames = _.keys(baseParameters).sort();
-
-    let stringToHash = "";
-    for (let i = 0 ; i < sortedParameterNames.length ; i++) {
-        let parameterName = sortedParameterNames[i];
-        stringToHash = stringToHash + parameterName + baseParameters[parameterName];
-    }
-
-    let hmac = crypto.createHmac("sha256", process.env.WEATHERLINK_V2_API_SECRET);
-    hmac.update(stringToHash);
-    let apiSignature = hmac.digest("hex").toLowerCase();
-
-    let parameters = _.clone(baseParameters);
-    parameters["api-signature"] = apiSignature;
-
-    return parameters;
 }
 
 exports.handler = async function(event, context) {
@@ -53,13 +32,14 @@ exports.handler = async function(event, context) {
 
     const sensorId = +process.env.SENSOR_ID;
 
-    const currentParameters = getParameters(getCurrentBaseParameters());
+    const currentParameters = getCurrentBaseParameters();
 
-    const currentUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/current/" + currentParameters["station-id"] +
-        "?api-key=" + currentParameters["api-key"] +
-        "&api-signature=" + currentParameters["api-signature"] +
-        "&t=" + currentParameters["t"];
-    const currentResponse = await fetch(currentUrl);
+    const headers = {
+        "X-Api-Secret": process.env.WEATHERLINK_V2_API_SECRET
+    };
+
+    const currentUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/current/" + currentParameters["station-id"] + "?api-key=" + currentParameters["api-key"];
+    const currentResponse = await fetch(currentUrl, { headers: headers });
     const currentJson = await currentResponse.json();
     data.raw_current = currentJson;
     data.url_current = currentUrl;
@@ -77,15 +57,13 @@ exports.handler = async function(event, context) {
     }
 
     if (_.has(event.queryStringParameters, "historic")) {
-        const historicParameters = getParameters(getHistoricBaseParameters());
+        const historicParameters = getHistoricBaseParameters();
 
         const historicUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/historic/" + historicParameters["station-id"] +
             "?api-key=" + historicParameters["api-key"] +
-            "&api-signature=" + historicParameters["api-signature"] +
             "&start-timestamp=" + historicParameters["start-timestamp"] +
-            "&end-timestamp=" + historicParameters["end-timestamp"] +
-            "&t=" + historicParameters["t"];
-        const historicResponse = await fetch(historicUrl);
+            "&end-timestamp=" + historicParameters["end-timestamp"];
+        const historicResponse = await fetch(historicUrl, { headers: headers });
         const historicJson = await historicResponse.json();
         data.raw_historic = historicJson;
         data.url_historic = historicUrl;
