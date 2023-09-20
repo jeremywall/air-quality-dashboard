@@ -122,7 +122,8 @@ exports.handler = async function(event, context) {
 
                 data.historic.data.push({
                     timestamp: dataRecord.ts,
-                    pm25_aqi_value: _.round(dataRecord.aqi_avg_val, 1)
+                    pm25_aqi_value: _.round(dataRecord.aqi_avg_val, 1),
+                    pm25_aqi_value_calc: _.round(aqi(dataRecord.pm_2p5_avg, pm25_breakpoints), 1),
                 });
             }
         }

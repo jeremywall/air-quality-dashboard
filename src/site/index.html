@@ -259,7 +259,7 @@ async function refreshData(historic) {
         let chartData = [];
         for(let i = 0 ; i < json.historic.data.length ; i++) {
             let data = json.historic.data[i];
-            chartData.push([data.timestamp * 1000, data.pm25_aqi_value]);
+            chartData.push([data.timestamp * 1000, data.pm25_aqi_value_calc]);
         }
 
         AQDB.charts.historic.series[0].setData(chartData);
