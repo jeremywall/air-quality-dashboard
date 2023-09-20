@@ -98,8 +98,8 @@ exports.handler = async function(event, context) {
             pm25_aqi_value: _.round(dataRecord.aqi_val, 1),
             pm25_aqi_desc: dataRecord.aqi_desc,
             pm25_ws: dataRecord.pm_2p5 * 0.48,
-            pm25_aqi_value_calc: aqi(dataRecord.pm_2p5, pm25_breakpoints),
-            pm25_aqi_value_ws_calc: aqi(dataRecord.pm_2p5 * 0.48, pm25_breakpoints)
+            pm25_aqi_value_calc: _.round(aqi(dataRecord.pm_2p5, pm25_breakpoints), 1),
+            pm25_aqi_value_ws_calc: _.round(aqi(dataRecord.pm_2p5 * 0.48, pm25_breakpoints), 1)
         });
     }
 

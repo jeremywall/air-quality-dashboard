@@ -140,6 +140,15 @@ function setupCharts() {
                 borderColor: '#000000',
                 borderWidth: 1
             }
+        },{
+            name: 'AQI Wood Smoke',
+            data: null,
+            // data: [6.5],
+            dial: {
+                backgroundColor: '#ffffff',
+                borderColor: '#000000',
+                borderWidth: 1
+            }
         }]
     });
     AQDB.charts.current.showLoading();
@@ -239,7 +248,8 @@ async function refreshData(historic) {
         $("#last-updated").text(moment.unix(data.timestamp).format("MMM D, YYYY @ hh:mm A"));
         
         AQDB.charts.current.setSubtitle({ text: data.pm25_aqi_desc });
-        AQDB.charts.current.series[0].setData([data.pm25_aqi_value]);
+        AQDB.charts.current.series[0].setData([data.pm25_aqi_value_calc]);
+        AQDB.charts.current.series[1].setData([data.pm25_aqi_value_ws_calc]);
     }
     AQDB.charts.current.hideLoading();
 
