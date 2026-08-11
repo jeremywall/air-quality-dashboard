@@ -2,12 +2,55 @@ const _ = require("lodash");
 const crypto = require("crypto");
 const fetch = require('node-fetch');
 
+const aqi_breakpoints = [
+    [0, 50],
+    [51, 100],
+    [101, 150],
+    [151, 200],
+    [201, 300],
+    [301, 400],
+    [401, 500],
+];
+
+const pm25_breakpoints = [
+    [0.0, 12.0],
+    [12.1, 35.4],
+    [35.5, 55.4],
+    [55.5, 150.4],
+    [150.5, 250.4],
+    [250.5, 350.4],
+    [350.5, 500.4],
+];
+
+function breakpointIndex(value, breakpoints) {
+    return _.findIndex(breakpoints, function(breakpoint) {
+        if (null === breakpoint) {
+            return false;
+        }
+        return breakpoint[0] <= value && value <= breakpoint[1];
+    });
+}
+
+function aqi(concentration, breakpoints) {
+    let index = breakpointIndex(concentration, breakpoints);
+
+    if (-1 === index) {
+        return NaN;
+    }
+
+    let i_high = aqi_breakpoints[index][1];
+    let i_low = aqi_breakpoints[index][0];
+    let c_high = breakpoints[index][1];
+    let c_low = breakpoints[index][0];
+
+    return (i_high - i_low) / (c_high - c_low) * (concentration - c_low) + i_low;
+}
+
 function getCurrentBaseParameters() {
     let now = Math.floor(Date.now() / 1000);
     return {
         "api-key": process.env.WEATHERLINK_V2_API_KEY,
-        "station-id": process.env.STATION_ID,
-        "t": now
+        "station-id": process.env.STATION_ID
     };
 }
 
@@ -17,28 +60,8 @@ function getHistoricBaseParameters() {
         "api-key": process.env.WEATHERLINK_V2_API_KEY,
         "station-id": process.env.STATION_ID,
         "start-timestamp": now - (3600 * 3),
-        "end-timestamp": now,
-        "t": now
+        "end-timestamp": now
     };
-}
-
-function getParameters(baseParameters) {
-    let sortedParameterNames = _.keys(baseParameters).sort();
-
-    let stringToHash = "";
-    for (let i = 0 ; i < sortedParameterNames.length ; i++) {
-        let parameterName = sortedParameterNames[i];
-        stringToHash = stringToHash + parameterName + baseParameters[parameterName];
-    }
-
-    let hmac = crypto.createHmac("sha256", process.env.WEATHERLINK_V2_API_SECRET);
-    hmac.update(stringToHash);
-    let apiSignature = hmac.digest("hex").toLowerCase();
-
-    let parameters = _.clone(baseParameters);
-    parameters["api-signature"] = apiSignature;
-
-    return parameters;
 }
 
 exports.handler = async function(event, context) {
@@ -53,13 +76,14 @@ exports.handler = async function(event, context) {
 
     const sensorId = +process.env.SENSOR_ID;
 
-    const currentParameters = getParameters(getCurrentBaseParameters());
+    const currentParameters = getCurrentBaseParameters();
 
-    const currentUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/current/" + currentParameters["station-id"] +
-        "?api-key=" + currentParameters["api-key"] +
-        "&api-signature=" + currentParameters["api-signature"] +
-        "&t=" + currentParameters["t"];
-    const currentResponse = await fetch(currentUrl);
+    const headers = {
+        "X-Api-Secret": process.env.WEATHERLINK_V2_API_SECRET
+    };
+
+    const currentUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/current/" + currentParameters["station-id"] + "?api-key=" + currentParameters["api-key"];
+    const currentResponse = await fetch(currentUrl, { headers: headers });
     const currentJson = await currentResponse.json();
     data.raw_current = currentJson;
     data.url_current = currentUrl;
@@ -73,19 +97,20 @@ exports.handler = async function(event, context) {
             pm25: dataRecord.pm_2p5,
             pm25_aqi_value: _.round(dataRecord.aqi_val, 1),
             pm25_aqi_desc: dataRecord.aqi_desc,
+            pm25_ws: dataRecord.pm_2p5 * 0.48,
+            pm25_aqi_value_calc: _.round(aqi(dataRecord.pm_2p5, pm25_breakpoints), 1),
+            pm25_aqi_value_ws_calc: _.round(aqi(dataRecord.pm_2p5 * 0.48, pm25_breakpoints), 1)
         });
     }
 
     if (_.has(event.queryStringParameters, "historic")) {
-        const historicParameters = getParameters(getHistoricBaseParameters());
+        const historicParameters = getHistoricBaseParameters();
 
         const historicUrl = process.env.WEATHERLINK_V2_API_BASE_URL + "/historic/" + historicParameters["station-id"] +
             "?api-key=" + historicParameters["api-key"] +
-            "&api-signature=" + historicParameters["api-signature"] +
             "&start-timestamp=" + historicParameters["start-timestamp"] +
-            "&end-timestamp=" + historicParameters["end-timestamp"] +
-            "&t=" + historicParameters["t"];
-        const historicResponse = await fetch(historicUrl);
+            "&end-timestamp=" + historicParameters["end-timestamp"];
+        const historicResponse = await fetch(historicUrl, { headers: headers });
         const historicJson = await historicResponse.json();
         data.raw_historic = historicJson;
         data.url_historic = historicUrl;
@@ -97,7 +122,8 @@ exports.handler = async function(event, context) {
 
                 data.historic.data.push({
                     timestamp: dataRecord.ts,
-                    pm25_aqi_value: _.round(dataRecord.aqi_avg_val, 1)
+                    pm25_aqi_value: _.round(dataRecord.aqi_avg_val, 1),
+                    pm25_aqi_value_calc: _.round(aqi(dataRecord.pm_2p5_avg, pm25_breakpoints), 1),
                 });
             }
         }

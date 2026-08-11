@@ -31,13 +31,6 @@
         </div>
     </div>
     <div class="row">
-        <div class="col">
-            <figure class="text-center">
-                Powered by <a href="https://www.davisinstruments.com/pages/airlink">AirLink from Davis Instruments</a>
-            </figure>
-        </div>
-    </div>
-    <div class="row">
         <div id="aqi-current-gauge-container" class="col aqi-current-gauge-container"></div>
     </div>
     <div class="row">
@@ -140,7 +133,18 @@ function setupCharts() {
                 borderColor: '#000000',
                 borderWidth: 1
             }
-        }]
+        }
+        // ,{
+        //     name: 'AQI Wood Smoke',
+        //     data: null,
+        //     // data: [6.5],
+        //     dial: {
+        //         backgroundColor: '#ffffff',
+        //         borderColor: '#000000',
+        //         borderWidth: 1
+        //     }
+        // }
+        ]
     });
     AQDB.charts.current.showLoading();
 
@@ -239,7 +243,8 @@ async function refreshData(historic) {
         $("#last-updated").text(moment.unix(data.timestamp).format("MMM D, YYYY @ hh:mm A"));
         
         AQDB.charts.current.setSubtitle({ text: data.pm25_aqi_desc });
-        AQDB.charts.current.series[0].setData([data.pm25_aqi_value]);
+        AQDB.charts.current.series[0].setData([data.pm25_aqi_value_calc]);
+        //AQDB.charts.current.series[1].setData([data.pm25_aqi_value_ws_calc]);
     }
     AQDB.charts.current.hideLoading();
 
@@ -247,7 +252,7 @@ async function refreshData(historic) {
         let chartData = [];
         for(let i = 0 ; i < json.historic.data.length ; i++) {
             let data = json.historic.data[i];
-            chartData.push([data.timestamp * 1000, data.pm25_aqi_value]);
+            chartData.push([data.timestamp * 1000, data.pm25_aqi_value_calc]);
         }
 
         AQDB.charts.historic.series[0].setData(chartData);
